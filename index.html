@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kari's Color Palette</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0f17;--glass:rgba(22,26,38,.65);--bd:rgba(255,255,255,.08);--tx:#f8fafc;--mu:#94a3b8;--rx:24px;--rm:14px;--fh:'Outfit',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:var(--fb);-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);background-image:radial-gradient(circle at 15% 15%,rgba(255,154,162,.08),transparent 40%),radial-gradient(circle at 85% 85%,rgba(181,163,255,.08),transparent 40%);color:var(--tx);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+header{padding:1.25rem 2.5rem;display:flex;justify-content:space-between;align-items:center;background:var(--glass);border-bottom:1px solid var(--bd);gap:1rem;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:16px}
+.icon{width:48px;height:48px;background:linear-gradient(135deg,#ff758c,#ff7eb3 50%,#b5a3ff);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;box-shadow:0 8px 20px rgba(255,117,140,.3)}
+h1{font-family:var(--fh);font-size:1.6rem;font-weight:700;background:linear-gradient(135deg,#fff 30%,#ffd0db);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:.8rem;color:var(--mu)}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+select,.ghost{background:rgba(255,255,255,.05);border:1px solid var(--bd);color:var(--tx);padding:.7rem 1rem;border-radius:var(--rm);font-size:.88rem;font-weight:600;cursor:pointer}
+.ghost:hover{background:rgba(255,255,255,.12)}
+.ghost:disabled{opacity:.35;cursor:default}
+select option{background:#1a1e2d;color:#fff}
+.gen{background:linear-gradient(135deg,#ff758c,#ff7eb3);color:#fff;border:none;padding:.8rem 1.6rem;font-size:.95rem;font-weight:700;border-radius:var(--rm);cursor:pointer;box-shadow:0 10px 25px rgba(255,117,140,.35);transition:transform .2s}
+.gen:hover{transform:translateY(-2px)}
+main{flex:1;padding:1.5rem 2rem;max-width:1600px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem}
+.stage{display:grid;grid-template-columns:repeat(var(--n,5),1fr);gap:1rem;min-height:440px}
+.card{border-radius:var(--rx);display:flex;flex-direction:column;justify-content:space-between;padding:1.25rem;border:1px solid rgba(255,255,255,.12);box-shadow:0 12px 30px rgba(0,0,0,.25);transition:transform .3s;min-width:0}
+.card:hover{transform:translateY(-6px)}
+.lock{width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.2);cursor:pointer;font-size:1.05rem}
+.lock.on{background:rgba(0,0,0,.4)}
+.meta{background:rgba(0,0,0,.22);padding:1rem;border-radius:var(--rm);border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:6px}
+.name{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.8}
+.hex{font-family:var(--fh);font-size:1.4rem;font-weight:700;background:transparent;border:none;border-bottom:1px dashed rgba(128,128,128,.5);color:inherit;width:100%;outline:none}
+.hex:focus{border-bottom-style:solid}
+.rgb{font-size:.76rem;opacity:.75}
+.wcag{font-size:.76rem;font-weight:700;border:1px solid currentColor;border-radius:99px;padding:2px 10px;align-self:flex-start;opacity:.9}
+.copy{margin-top:4px;padding:8px;background:rgba(255,255,255,.15);border:none;border-radius:8px;color:inherit;font-weight:600;font-size:.8rem;cursor:pointer}
+.copy:hover{background:rgba(255,255,255,.28)}
+.panels{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.panel{background:var(--glass);border:1px solid var(--bd);border-radius:var(--rx);padding:1.25rem;display:flex;flex-direction:column;gap:12px;min-width:0}
+h2{font-family:var(--fh);font-size:1.05rem;font-weight:600}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.prev{border-radius:var(--rm);padding:1.2rem;display:flex;flex-direction:column;gap:8px;border:2px solid}
+.prev h3{font-family:var(--fh);font-size:1.2rem}
+.prev p{font-size:.85rem;opacity:.85}
+.prev button{align-self:flex-start;border:none;padding:.55rem 1.1rem;border-radius:99px;font-weight:700;cursor:default}
+.fav{display:flex;align-items:center;gap:8px}
+.strip{flex:1;display:flex;height:34px;border-radius:10px;overflow:hidden;border:1px solid var(--bd);cursor:pointer;background:none;padding:0}
+.strip i{flex:1}
+.x{background:none;border:none;color:var(--mu);font-size:1.1rem;cursor:pointer}
+.empty{font-size:.85rem;color:var(--mu)}
+footer{text-align:center;padding:.5rem 2rem 2rem;color:var(--mu);font-size:.85rem}
+kbd{background:rgba(255,255,255,.08);border:1px solid var(--bd);padding:3px 8px;border-radius:6px;color:var(--tx);font-size:.8rem}
+.toast{position:fixed;bottom:35px;left:50%;transform:translate(-50%,100px);background:rgba(18,22,33,.92);border:1px solid rgba(255,255,255,.15);color:#fff;padding:14px 28px;border-radius:50px;font-weight:600;opacity:0;transition:.4s;z-index:9}
+.toast.show{transform:translate(-50%,0);opacity:1}
+@media(max-width:1024px){.stage{grid-template-columns:repeat(3,1fr)}.panels{grid-template-columns:1fr}}
+@media(max-width:768px){header{padding:1rem}main{padding:1rem}.stage{grid-template-columns:1fr;min-height:auto}.card{min-height:150px;flex-direction:row;align-items:center}.lock{order:2}.meta{order:1;flex:1;margin-right:12px}}
+</style>
+</head>
+<body>
+<header>
+<div class="brand"><div class="icon">✨</div><div><h1>Kari's Color Palette</h1><p class="sub">Generador armónico &amp; estético de colores</p></div></div>
+<div class="controls">
+<button class="ghost" id="undo" title="Deshacer (Ctrl+Z)">↶</button>
+<button class="ghost" id="redo" title="Rehacer">↷</button>
+<select id="count" title="Cantidad de colores"><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option><option>8</option></select>
+<select id="harmony"><option value="random">✦ Aleatorio</option><option value="analogous">✦ Análogo</option><option value="monochromatic">✦ Monocromático</option><option value="complementary">✦ Complementario</option><option value="triadic">✦ Triádico</option><option value="split">✦ Split complementario</option><option value="tetradic">✦ Tetrádico</option></select>
+<button class="gen" id="gen">↻ Generar paleta</button>
+</div>
+</header>
+<main>
+<div class="stage" id="stage"></div>
+<div class="panels">
+<section class="panel"><h2>Vista previa</h2><div id="prev"></div></section>
+<section class="panel"><h2>Exportar</h2><div class="row"><button class="ghost" data-ex="css">CSS</button><button class="ghost" data-ex="json">JSON</button><button class="ghost" data-ex="hex">Lista HEX</button><button class="ghost" data-ex="link">Enlace</button></div><p class="empty">Copia la paleta completa al portapapeles. El enlace guarda los colores en la dirección.</p></section>
+<section class="panel"><h2>Favoritas</h2><button class="ghost" id="save">♥ Guardar esta paleta</button><div id="favs" style="display:flex;flex-direction:column;gap:8px"></div></section>
+</div>
+</main>
+<footer><kbd>Espacio</kbd> genera · escribe un HEX en cualquier color para editarlo · <kbd>Ctrl</kbd>+<kbd>Z</kbd> deshace</footer>
+<div class="toast" id="toast"></div>
+<script>
+const $=i=>document.getElementById(i);
+const H2=(h,s,l)=>{l/=100;const a=s*Math.min(l,1-l)/100;const f=n=>{const k=(n+h/30)%12;return Math.round(255*(l-a*Math.max(Math.min(k-3,9-k,1),-1))).toString(16).padStart(2,'0')};return('#'+f(0)+f(8)+f(4)).toUpperCase()};
+const rgb=x=>{const b=parseInt(x.slice(1),16);return[b>>16&255,b>>8&255,b&255]};
+const hsl=x=>{const[r,g,b]=rgb(x).map(v=>v/255);const M=Math.max(r,g,b),m=Math.min(r,g,b),d=M-m,l=(M+m)/2;let h=0,s=0;if(d){s=d/(1-Math.abs(2*l-1));h=M===r?((g-b)/d+6)%6:M===g?(b-r)/d+2:(r-g)/d+4;h*=60}return[h,s*100,l*100]};
+const lum=x=>{const[a,b,c]=rgb(x).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return a*.2126+b*.7152+c*.0722};
+const cr=(a,b)=>{const x=lum(a),y=lum(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+const cat=x=>{const[h,s,l]=hsl(x);if(l<15)return'Noche Profunda';if(l>85)return'Pastel Suave';if(s<12)return'Gris Elegante';if(h<15||h>=345)return'Rojo Cálido';if(h<45)return'Naranja Terracota';if(h<70)return'Dorado Cálido';if(h<165)return'Verde Esmeralda';if(h<260)return'Azul Océano';if(h<315)return'Púrpura Místico';return'Rosa Encanto'};
+const INK='#0D0F17',stage=$('stage');
+let pal=[],hist=[],hi=-1,favs=[];
+function ink(x){return cr(x,'#FFFFFF')>=cr(x,INK)?'#FFFFFF':INK}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function copy(t,m){try{navigator.clipboard.writeText(t)}catch(e){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}toast(m||'¡Copiado!')}
+function gen(){const n=+$('count').value,t=$('harmony').value,base=Math.random()*360,hues={triadic:[0,120,240],split:[0,150,210],tetradic:[0,90,180,270]}[t];
+pal=Array.from({length:n},(_,i)=>{if(pal[i]&&pal[i].locked)return pal[i];let h,s,l;
+if(t==='analogous'){h=(base+i*25)%360;s=65+Math.random()*20;l=45+Math.random()*30}
+else if(t==='monochromatic'){h=base;s=40+Math.random()*40;l=15+i*(70/n)}
+else if(t==='complementary'){h=i%2?(base+180)%360:base;s=60+Math.random()*25;l=30+i*(50/n)+Math.random()*8}
+else if(hues){h=(base+hues[i%hues.length])%360;s=55+Math.random()*30;l=35+Math.random()*40}
+else{h=Math.random()*360;s=55+Math.random()*35;l=40+Math.random()*35}
+return{hex:H2(h,s,l),locked:false}});commit()}
+function commit(){hist=hist.slice(0,hi+1);hist.push(JSON.stringify(pal));hi=hist.length-1;render()}
+function go(d){const j=hi+d;if(j<0||j>=hist.length)return;hi=j;pal=JSON.parse(hist[hi]);render()}
+function render(){stage.style.setProperty('--n',pal.length);stage.innerHTML='';
+pal.forEach((c,i)=>{const t=ink(c.hex),r=Math.max(cr(c.hex,'#FFFFFF'),cr(c.hex,INK)),lv=r>=7?'AAA':r>=4.5?'AA':r>=3?'AA grande':'Bajo';
+const d=document.createElement('div');d.className='card';d.style.background=c.hex;d.style.color=t;
+d.innerHTML=`<div><button class="lock ${c.locked?'on':''}" title="${c.locked?'Desbloquear':'Bloquear'}">${c.locked?'🔒':'🔓'}</button></div><div class="meta"><span class="name">${cat(c.hex)}</span><input class="hex" value="${c.hex}" maxlength="7" spellcheck="false" aria-label="Código HEX"><span class="rgb">rgb(${rgb(c.hex).join(', ')})</span><span class="wcag" title="Contraste del texto sobre este color">Aa ${r.toFixed(1)} · ${lv}</span><button class="copy">Copiar HEX</button></div>`;
+d.querySelector('.lock').onclick=()=>{c.locked=!c.locked;render()};
+d.querySelector('.copy').onclick=()=>copy(c.hex,'¡'+c.hex+' copiado!');
+d.querySelector('.hex').onchange=e=>{const v=e.target.value.trim().replace(/^#?/,'#');if(/^#[0-9a-f]{6}$/i.test(v)){c.hex=v.toUpperCase();commit()}else{toast('HEX no válido, usa 6 dígitos');render()}};
+stage.appendChild(d)});
+$('undo').disabled=hi<=0;$('redo').disabled=hi>=hist.length-1;
+const by=[...pal].sort((a,b)=>lum(b.hex)-lum(a.hex)),bg=by[0].hex,fg=by[by.length-1].hex,ac=[...pal].sort((a,b)=>hsl(b.hex)[1]-hsl(a.hex)[1])[0].hex,bd=pal[Math.floor(pal.length/2)].hex;
+$('prev').innerHTML=`<div class="prev" style="background:${bg};color:${fg};border-color:${bd}"><h3>Tu marca aquí</h3><p>Así se ve la paleta en una tarjeta real con título, texto y botón.</p><button style="background:${ac};color:${ink(ac)}">Empezar</button></div>`;
+try{history.replaceState(null,'','#'+pal.map(c=>c.hex.slice(1)).join('-'))}catch(e){}}
+function favRender(){const f=$('favs');f.innerHTML=favs.length?'':'<p class="empty">Aún no hay paletas guardadas.</p>';
+favs.forEach((p,i)=>{const d=document.createElement('div');d.className='fav';d.innerHTML=`<button class="strip" title="Cargar">${p.map(x=>`<i style="background:${x}"></i>`).join('')}</button><button class="x" title="Eliminar">×</button>`;
+d.querySelector('.strip').onclick=()=>{pal=p.map(hex=>({hex,locked:false}));$('count').value=Math.min(8,Math.max(3,p.length));commit()};
+d.querySelector('.x').onclick=()=>{favs.splice(i,1);favSave();favRender()};f.appendChild(d)})}
+function favSave(){try{localStorage.setItem('kari-favs',JSON.stringify(favs))}catch(e){}}
+$('save').onclick=()=>{favs.unshift(pal.map(c=>c.hex));favs=favs.slice(0,12);favSave();favRender();toast('Paleta guardada ♥')};
+document.querySelectorAll('[data-ex]').forEach(b=>b.onclick=()=>{const h=pal.map(c=>c.hex),k=b.dataset.ex;
+if(k==='css')copy(':root {\n'+h.map((x,i)=>`  --color-${i+1}: ${x};`).join('\n')+'\n}','Variables CSS copiadas');
+else if(k==='json')copy(JSON.stringify(h),'JSON copiado');
+else if(k==='hex')copy(h.join('\n'),'Lista copiada');
+else copy(location.href.split('#')[0]+'#'+h.map(x=>x.slice(1)).join('-'),'Enlace copiado')});
+$('gen').onclick=gen;$('harmony').onchange=gen;$('count').onchange=gen;
+$('undo').onclick=()=>go(-1);$('redo').onclick=()=>go(1);
+document.addEventListener('keydown',e=>{const tg=e.target.tagName;if((e.ctrlKey||e.metaKey)&&e.code==='KeyZ'&&tg!=='INPUT'){e.preventDefault();go(e.shiftKey?1:-1)}
+else if(e.code==='Space'&&tg!=='SELECT'&&tg!=='BUTTON'&&tg!=='INPUT'){e.preventDefault();gen()}});
+try{favs=JSON.parse(localStorage.getItem('kari-favs')||'[]')}catch(e){favs=[]}
+favRender();
+const m=(location.hash||'').slice(1).split('-').filter(x=>/^[0-9a-f]{6}$/i.test(x)).slice(0,8);
+if(m.length>=3){pal=m.map(x=>({hex:'#'+x.toUpperCase(),locked:false}));$('count').value=m.length;commit()}else gen();
+</script>
+</body>
+</html>
